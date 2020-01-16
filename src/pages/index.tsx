@@ -10,7 +10,7 @@ export default ({ data }) => {
       <h1>Welcome</h1>
       <p>It's not much, but it's mine</p>
       <p>
-        Overally complicated simple blog built with{" "}
+        Overly complicated simple blog built with{" "}
         <a href="//www.gatsbyjs.org/">Gatsby</a>
       </p>
       {posts.map(({ node }) => {
