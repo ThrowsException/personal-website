@@ -3,8 +3,8 @@ import { Link } from "gatsby";
 import { graphql } from "gatsby";
 
 export default ({ data }) => {
-  console.log(data);
   const posts = data.allMarkdownRemark.edges;
+  const projects = data.github.viewer.itemShowcase.items.nodes;
   return (
     <React.Fragment>
       <h1>Welcome</h1>
@@ -13,6 +13,14 @@ export default ({ data }) => {
         Overly complicated simple blog built with{" "}
         <a href="//www.gatsbyjs.org/">Gatsby</a>
       </p>
+      <h3>Some github projects</h3>
+      <ul>
+        {projects.map(({ id, name, url }) => (
+          <li key={id}>
+            <a href={url}>{name}</a>
+          </li>
+        ))}
+      </ul>
       {posts.map(({ node }) => {
         const title = node.frontmatter.title || node.fields.slug;
         return (
@@ -82,6 +90,21 @@ export const query = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             description
+          }
+        }
+      }
+    }
+    github {
+      viewer {
+        itemShowcase {
+          items(first: 10) {
+            nodes {
+              ... on GitHub_Repository {
+                id
+                name
+                url
+              }
+            }
           }
         }
       }
