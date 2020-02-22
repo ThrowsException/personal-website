@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { graphql } from 'gatsby';
-import '../styles/github.scss';
+import Container from '../components/container';
 
 export default ({ data }) => {
   const projects = data.github.viewer.itemShowcase.items.nodes;
   return (
-    <React.Fragment>
+    <Container>
       <h1>Github Portfolio</h1>
       <ul>
         {projects.map(({ id, name, url, languages }) => {
@@ -32,7 +32,7 @@ export default ({ data }) => {
           );
         })}
       </ul>
-    </React.Fragment>
+    </Container>
   );
 };
 

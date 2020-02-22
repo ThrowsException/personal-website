@@ -1,26 +1,20 @@
-import * as React from "react";
-import { Link } from "gatsby";
-import { graphql } from "gatsby";
+import * as React from 'react';
+import { Link } from 'gatsby';
+import { graphql } from 'gatsby';
 
 export default ({ data }) => {
   const posts = data.allMarkdownRemark.edges;
-  const projects = data.github.viewer.itemShowcase.items.nodes;
   return (
     <React.Fragment>
       <h1>Welcome</h1>
       <p>It's not much, but it's mine</p>
       <p>
-        Overly complicated simple blog built with{" "}
+        Overly complicated simple blog built with{' '}
         <a href="//www.gatsbyjs.org/">Gatsby</a>
       </p>
-      <h3>Some github projects</h3>
-      <ul>
-        {projects.map(({ id, name, url }) => (
-          <li key={id}>
-            <a href={url}>{name}</a>
-          </li>
-        ))}
-      </ul>
+      <Link style={{ boxShadow: `none` }} to={'/github'}>
+        View Github Projects
+      </Link>
       {posts.map(({ node }) => {
         const title = node.frontmatter.title || node.fields.slug;
         return (
@@ -36,7 +30,7 @@ export default ({ data }) => {
             <section>
               <p
                 dangerouslySetInnerHTML={{
-                  __html: node.frontmatter.description || node.excerpt
+                  __html: node.frontmatter.description || node.excerpt,
                 }}
               />
             </section>
@@ -90,21 +84,6 @@ export const query = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             description
-          }
-        }
-      }
-    }
-    github {
-      viewer {
-        itemShowcase {
-          items(first: 10) {
-            nodes {
-              ... on GitHub_Repository {
-                id
-                name
-                url
-              }
-            }
           }
         }
       }
