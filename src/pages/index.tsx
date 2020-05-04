@@ -50,8 +50,9 @@ export default ({ data }) => {
           </a>
         </li>
         <li>
-          <a href="https://www.aweber.com">
-            I work at AWeber, Working on Python and React.
+          <a href="https://www.relaynetwork.com/">
+            I work at Relay Network doing Node, Angular and faking my way
+            through Clojure.
           </a>
         </li>
       </ul>
