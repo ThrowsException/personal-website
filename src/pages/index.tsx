@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { Link } from 'gatsby';
 import { graphql } from 'gatsby';
+import blogs from '../data/blogs';
+import blog_posts from '../data/posts';
+import videos from '../data/videos';
 
 export default ({ data }) => {
   const posts = data.allMarkdownRemark.edges;
+
   return (
     <React.Fragment>
       <h1>Welcome</h1>
@@ -40,75 +44,37 @@ export default ({ data }) => {
       <hr />
       <p>Blogs, posts and other stuff I often reach for</p>
       <ul>
-        <li>
-          <a href="https://overreacted.io/">Dan Abramov</a>
-        </li>
-        <li>
-          <a href="https://lucumr.pocoo.org/about/">Armin Ronacher</a>
-        </li>
-        <li>
-          <a href="https://staffeng.com/stories/">
-            Will Larson: Staff Engineering
-          </a>
-        </li>
-        <li>
-          <a href="https://lethain.com/">Will Larson: Blog</a>
-        </li>
-        <li>
-          <a href="https://codeascraft.com/">Etsy Engineering Blog</a>
-        </li>
-        <li>
-          <a href="https://netflixtechblog.com/">Netflix Engineering Blog</a>
-        </li>
-        <li>
-          <a href="https://www.fast.ai/">Fast.ai</a>
-        </li>
-        <li>
-          <a href="https://blog.codinghorror.com/">
-            Coding Horror: Jeff Atwood
-          </a>
-        </li>
+        {blogs.map((item) => {
+          return (
+            <li>
+              <a key={item[0]} href={item[0]}>
+                {item[1]}
+              </a>
+            </li>
+          );
+        })}
       </ul>
       <ul>
-        <li>
-          <a href="https://www.bitlog.com/2020/02/12/why-are-we-so-bad-at-software-engineering/">
-            Why are we so bad at software engineering
-          </a>
-        </li>
-        <li>
-          <a href="https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/">
-            What color is your function
-          </a>
-        </li>
-        <li>
-          <a href="https://blog.codinghorror.com/the-magpie-developer/">
-            The Magpie Developer
-          </a>
-        </li>
+        {blog_posts.map((item) => {
+          return (
+            <li>
+              <a key={item[0]} href={item[0]}>
+                {item[1]}
+              </a>
+            </li>
+          );
+        })}
       </ul>
       <ul>
-        <li>
-          <a href="https://www.youtube.com/watch?v=_756Hsawbv4">
-            A11y And React, Why Is It Important? - Johnny Bell - React Rally
-            2019
-          </a>
-        </li>
-        <li>
-          <a href="https://www.youtube.com/watch?v=sZPxFKRTW94">
-            Human React - Brian Holt
-          </a>
-        </li>
-        <li>
-          <a href="https://www.youtube.com/watch?v=AdNJ3fydeao">
-            Rich Harris - Rethinking reactivity
-          </a>
-        </li>
-        <li>
-          <a href="https://www.youtube.com/watch?v=wf-BqAjZb8M">
-            Raymond Hettinger - Beyond PEP 8 -- Best practices for beautiful
-            intelligible code - PyCon 2015
-          </a>
-        </li>
+        {videos.map((item) => {
+          return (
+            <li>
+              <a key={item[0]} href={item[0]}>
+                {item[1]}
+              </a>
+            </li>
+          );
+        })}
       </ul>
       <hr />
       <p>Reading List</p>
