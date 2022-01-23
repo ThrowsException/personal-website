@@ -12,7 +12,11 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-ts-loader`,
+      resolve: `gatsby-plugin-typescript`,
+      options: {
+        isTSX: true, // defaults to false
+        allExtensions: true,
+      },
     },
     {
       resolve: `gatsby-transformer-remark`,
