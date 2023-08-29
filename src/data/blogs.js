@@ -1,4 +1,6 @@
 export default [
+  ['https://taylor.town/', 'Taylor Town'],
+  ['https://grugbrain.dev/', 'Grug'],
   ['https://overreacted.io', 'Dan Abramov'],
   ['https://lucumr.pocoo.org/about/', 'Armin Roncher'],
   ['https://staffeng.com/stories', ' Will Larson: Staff Engineering'],
