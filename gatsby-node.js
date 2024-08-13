@@ -8,10 +8,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const result = await graphql(
     `
       {
-        allMarkdownRemark(
-          sort: { fields: [frontmatter___date], order: DESC }
-          limit: 1000
-        ) {
+        allMarkdownRemark(sort: { frontmatter: { date: DESC } }, limit: 1000) {
           edges {
             node {
               fields {
@@ -44,8 +41,8 @@ exports.createPages = async ({ graphql, actions }) => {
       context: {
         slug: post.node.fields.slug,
         previous,
-        next
-      }
+        next,
+      },
     });
   });
 };
@@ -58,7 +55,7 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     createNodeField({
       name: `slug`,
       node,
-      value
+      value,
     });
   }
 };
