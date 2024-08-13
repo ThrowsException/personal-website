@@ -1,4 +1,4 @@
-export default [
+const posts = [
   [
     'https://www.bitlog.com/2020/02/12/why-are-we-so-bad-at-software-engineering/',
     ' Why are we so bad at software engineering',
@@ -12,3 +12,5 @@ export default [
     'The Magpie Developer',
   ],
 ];
+
+export default posts;

@@ -1,4 +1,4 @@
-export default [
+const data = [
   ['https://taylor.town/', 'Taylor Town'],
   ['https://grugbrain.dev/', 'Grug'],
   ['https://overreacted.io', 'Dan Abramov'],
@@ -10,3 +10,4 @@ export default [
   ['https://www.fast.ai/', 'Fast.ai'],
   ['https://blog.codinghorror.com/', 'Coding Horror: Jeff Atwood'],
 ];
+export default data;

@@ -1,3 +1,4 @@
 import React from 'react';
 import containerStyles from './github.module.scss';
-export default ({ children }) => <div className="container">{children}</div>;
+const container = ({ children }) => <div className="container">{children}</div>;
+export default container;

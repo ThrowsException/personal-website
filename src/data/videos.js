@@ -1,4 +1,4 @@
-export default [
+const videos = [
   [
     'https://www.youtube.com/watch?v=_756Hsawbv4',
     'A11y And React, Why Is It Important? - Johnny Bell - React Rally 2019',
@@ -13,3 +13,5 @@ export default [
     'Raymond Hettinger - Beyond PEP 8 -- Best practices for beautiful intelligible code - PyCon 2015',
   ],
 ];
+
+export default videos;
