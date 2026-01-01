@@ -20,7 +20,6 @@ module.exports = {
     {
       resolve: `gatsby-transformer-remark`,
     },
-    'gatsby-plugin-sass',
     // Advanced config, passing parameters to apollo-link
     {
       resolve: 'gatsby-source-graphql',
