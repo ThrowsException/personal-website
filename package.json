@@ -11,7 +11,7 @@
     "deploy": "npm run build && aws s3 sync dist/ s3://oneillc.io --delete --cache-control 'public,max-age=0,must-revalidate' && aws cloudfront create-invalidation --distribution-id E3HLOIL8F1YY17 --paths '/*'"
   },
   "dependencies": {
-    "astro": "^5.14.1"
+    "astro": "^7.1.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
