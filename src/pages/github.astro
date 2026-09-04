@@ -1,0 +1,188 @@
+---
+import Base from '../layouts/Base.astro';
+
+interface Repo {
+  id: string;
+  name: string;
+  url: string;
+  languages: {
+    edges: { node: { name: string; color: string | null }; size: number }[];
+    totalSize: number;
+  };
+}
+
+const token = import.meta.env.GITHUB_TOKEN;
+if (!token) {
+  throw new Error(
+    'GITHUB_TOKEN is not set. The /github page is built from the GitHub GraphQL API; put a token in .env before building.'
+  );
+}
+
+const response = await fetch('https://api.github.com/graphql', {
+  method: 'POST',
+  headers: {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    query: `
+      {
+        viewer {
+          itemShowcase {
+            items(first: 100) {
+              nodes {
+                ... on Repository {
+                  id
+                  name
+                  url
+                  languages(first: 10) {
+                    edges {
+                      node { name color }
+                      size
+                    }
+                    totalSize
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+  }),
+});
+
+const { data, errors } = await response.json();
+if (errors) {
+  throw new Error(
+    `GitHub API returned errors: ${errors.map((e: { message: string }) => e.message).join('\n')}`
+  );
+}
+
+const projects = (data.viewer.itemShowcase.items.nodes as Repo[]).map((repo) => ({
+  id: repo.id,
+  name: repo.name,
+  url: repo.url,
+  languages: repo.languages.edges
+    .map(({ node, size }) => ({
+      name: node.name,
+      color: node.color ?? '#8b9499',
+      share: (size / repo.languages.totalSize) * 100,
+    }))
+    .sort((a, b) => b.share - a.share),
+}));
+---
+
+<Base
+  title="Projects — Chester O'Neill"
+  description="Pinned GitHub repositories, broken down by the languages they are written in."
+>
+  <h1>Projects</h1>
+  <p class="intro">
+    What I have pinned on GitHub, and what each one is actually written in.
+  </p>
+
+  <ul class="repos">
+    {
+      projects.map((project) => (
+        <li>
+          <h2><a href={project.url}>{project.name}</a></h2>
+          <div
+            class="bar"
+            role="img"
+            aria-label={project.languages
+              .map((l) => `${l.name} ${Math.round(l.share)}%`)
+              .join(', ')}
+          >
+            {project.languages.map((language) => (
+              <span
+                style={`width:${language.share}%;background:${language.color}`}
+              />
+            ))}
+          </div>
+          <ul class="languages">
+            {project.languages.map((language) => (
+              <li>
+                <span class="swatch" style={`background:${language.color}`} />
+                {language.name} {Math.round(language.share)}%
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="back"><a href="/">Back to everything else</a></p>
+</Base>
+
+<style>
+  h1 {
+    margin: 2.5rem 0 0;
+    font-size: clamp(1.75rem, 1.35rem + 1.6vw, 2.5rem);
+    font-variation-settings: 'opsz' 60;
+    letter-spacing: -0.01em;
+  }
+
+  .intro {
+    max-width: var(--measure);
+    margin: 0.6rem 0 0;
+    color: var(--muted);
+  }
+
+  .repos {
+    list-style: none;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    max-width: 34rem;
+  }
+
+  .repos > li + li {
+    margin-top: 2rem;
+  }
+
+  .repos h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.125rem;
+  }
+
+  .bar {
+    display: flex;
+    height: 8px;
+    overflow: hidden;
+    background: var(--rule);
+  }
+
+  .bar span {
+    display: block;
+  }
+
+  .languages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.1rem;
+    list-style: none;
+    margin: 0.6rem 0 0;
+    padding: 0;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .languages li {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .swatch {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    outline: 1px solid var(--rule);
+  }
+
+  .back {
+    margin-top: 3rem;
+    font-size: 0.9375rem;
+  }
+</style>

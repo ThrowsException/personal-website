@@ -2,34 +2,20 @@
   "name": "personal-site",
   "version": "1.0.0",
   "description": "My Personal Website",
-  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "deploy": "npm run build && aws s3 sync dist/ s3://oneillc.io --delete --cache-control 'public,max-age=0,must-revalidate' && aws cloudfront create-invalidation --distribution-id E3HLOIL8F1YY17 --paths '/*'"
+  },
   "dependencies": {
-    "@babel/preset-env": "^7.28.3",
-    "gatsby-plugin-s3": "^0.4.1",
-    "gatsby-source-filesystem": "^5.15.0"
+    "astro": "^5.14.1"
   },
   "devDependencies": {
-    "@aws-sdk/client-s3": "^3.958.0",
-    "@aws-sdk/lib-storage": "^3.958.0",
-    "@babel/cli": "^7.28.3",
-    "@babel/core": "^7.28.4",
-    "@types/node": "^24.3.1",
-    "@types/react": "^18.2.57",
-    "@types/react-dom": "^18.2.19",
-    "gatsby": "^5.15.0",
-    "gatsby-plugin-typescript": "^5.15.0",
-    "gatsby-source-graphql": "^5.15.0",
-    "gatsby-transformer-remark": "^6.15.0",
-    "glob": "^13.0.0",
-    "mime-types": "^3.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "@astrojs/check": "^0.9.4",
     "typescript": "^5.9.2"
-  },
-  "scripts": {
-    "deploy": "npm run build && gatsby-plugin-s3 deploy",
-    "start": "gatsby develop",
-    "build": "gatsby build"
   },
   "author": "Chester ONeill",
   "license": "ISC",

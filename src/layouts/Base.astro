@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /** The index page supplies its own full-height purple band via the slot. */
+  home?: boolean;
+}
+
+const { title, description, home = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#54219b" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..600&display=swap"
+    />
+  </head>
+  <body>
+    <slot name="band" />
+    {
+      !home && (
+        <header class="band band--strip">
+          <div class="band-inner">
+            <p class="name">
+              <a href="/">Chester O'Neill</a>
+            </p>
+          </div>
+        </header>
+      )
+    }
+    <div class="page">
+      <main>
+        <slot />
+      </main>
+      <footer class="colophon">
+        <p>
+          Written in a text editor, built with <a href="https://astro.build"
+            >Astro</a
+          >, served off a bucket. No trackers, no cookies, no newsletter.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

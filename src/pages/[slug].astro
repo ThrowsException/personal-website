@@ -1,0 +1,92 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { formatDate } from '../lib/date';
+import { getPosts } from '../lib/posts';
+
+export const getStaticPaths = (async () => {
+  const entries = await getPosts();
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Base title={`${entry.data.title} — Chester O'Neill`} description={entry.data.description}>
+  <article>
+    <h1>{entry.data.title}</h1>
+    <time datetime={entry.data.date.toISOString()}>
+      {formatDate(entry.data.date)}
+    </time>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+  <p class="back"><a href="/">Back to everything else</a></p>
+</Base>
+
+<style>
+  article {
+    margin-top: 2.5rem;
+    max-width: var(--measure);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.75rem, 1.35rem + 1.6vw, 2.5rem);
+    font-variation-settings: 'opsz' 60;
+    letter-spacing: -0.01em;
+  }
+
+  time {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--muted);
+    font-size: 0.8125rem;
+  }
+
+  .prose {
+    margin-top: 2rem;
+  }
+
+  .prose :global(> * + *) {
+    margin-top: 1.3em;
+  }
+
+  .prose :global(h2) {
+    margin-top: 2.2em;
+    font-size: 1.25rem;
+  }
+
+  .prose :global(h3) {
+    margin-top: 1.8em;
+    font-size: 1.0625rem;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.15rem;
+  }
+
+  .prose :global(li + li) {
+    margin-top: 0.3em;
+  }
+
+  .prose :global(blockquote) {
+    margin-left: 0;
+    padding-left: 1.1rem;
+    border-left: 2px solid var(--rule);
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .back {
+    margin-top: 3rem;
+    font-size: 0.9375rem;
+  }
+</style>
