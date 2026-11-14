@@ -11,11 +11,11 @@
     "deploy": "npm run build && aws s3 sync dist/ s3://oneillc.io --delete --cache-control 'public,max-age=0,must-revalidate' && aws cloudfront create-invalidation --distribution-id E3HLOIL8F1YY17 --paths '/*'"
   },
   "dependencies": {
-    "astro": "^7.4.7"
+    "astro": "^7.4.12"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "typescript": "^6.0.3"
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^7.0.2"
   },
   "author": "Chester ONeill",
   "license": "ISC",
